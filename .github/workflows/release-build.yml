@@ -40,7 +40,10 @@ jobs:
           SONATYPE_KEY: ${{ secrets.SONATYPE_KEY }}
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
-      - run: |
-          gh release create ${{ github.events.inputs.version }} \
-            --title ${{ github.events.inputs.version }}-alpha \
+      - name: Create Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >
+          gh release create ${{ github.events.inputs.version }}
+            --title ${{ github.events.inputs.version }}-alpha
             --notes "Java Bindings for [OTLP ${{ github.events.inputs.version }}](https://github.com/open-telemetry/opentelemetry-proto/releases/tag/${{ github.events.inputs.version }})"
