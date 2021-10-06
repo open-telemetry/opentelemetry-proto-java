@@ -6,11 +6,15 @@ plugins {
 publishing {
   publications {
     register<MavenPublication>("mavenPublication") {
+      val publication = this
       groupId = "io.opentelemetry.proto"
       afterEvaluate {
         // not available until evaluated.
         artifactId = base.archivesName.get()
         pom.description.set(project.description)
+        val versionParts = publication.version.split('-').toMutableList()
+        versionParts[0] += "-alpha"
+        publication.version = versionParts.joinToString("-")
       }
 
       plugins.withId("java-platform") {
@@ -52,6 +56,14 @@ publishing {
         }
       }
     }
+  }
+}
+
+afterEvaluate {
+  val publishToSonatype by tasks.getting
+  val release by rootProject.tasks.existing
+  release.configure {
+    finalizedBy(publishToSonatype)
   }
 }
 

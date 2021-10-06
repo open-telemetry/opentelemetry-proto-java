@@ -1,15 +1,27 @@
 import com.google.protobuf.gradle.*
 import de.undercouch.gradle.tasks.download.Download
 import de.undercouch.gradle.tasks.download.Verify
+import nebula.plugin.release.git.opinion.Strategies
 import java.time.Duration
 
 plugins {
   id("com.google.protobuf")
   id("de.undercouch.download")
   id("io.github.gradle-nexus.publish-plugin")
+  id("nebula.release")
 
   id("otel.java-conventions")
   id("otel.publish-conventions")
+}
+
+release {
+  defaultVersionStrategy = Strategies.getSNAPSHOT()
+}
+
+tasks {
+  named("release") {
+    mustRunAfter("snapshotSetup", "finalSetup")
+  }
 }
 
 description = "Java Bindings for the OpenTelemetry Protocol (OTLP)"
@@ -29,9 +41,9 @@ dependencies {
   // see: https://github.com/grpc/grpc-java/issues/3633
   compileOnly("javax.annotation:javax.annotation-api:1.3.2")
 
-  compileOnly("io.grpc:grpc-api:${grpcVersion}")
-  compileOnly("io.grpc:grpc-protobuf:${grpcVersion}")
-  compileOnly("io.grpc:grpc-stub:${grpcVersion}")
+  compileOnly("io.grpc:grpc-api:$grpcVersion")
+  compileOnly("io.grpc:grpc-protobuf:$grpcVersion")
+  compileOnly("io.grpc:grpc-stub:$grpcVersion")
 }
 
 protobuf {
@@ -53,7 +65,7 @@ protobuf {
   }
 }
 
-val protoVersion = version.toString().removeSuffix("-alpha")
+val protoVersion = version.toString().removeSuffix("-SNAPSHOT").removeSuffix("-alpha")
 // To generate checksum, download the file and run "shasum -a 256 ~/path/to/vfoo.zip"
 val protoChecksum = "5e4131064e9471eb09294374db0d55028fdb73898b08aa07a835d17d61e5f017"
 val protoArchive = file("$buildDir/archives/opentelemetry-proto-$protoVersion.zip")
