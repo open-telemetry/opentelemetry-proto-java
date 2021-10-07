@@ -1,6 +1,5 @@
 import com.google.protobuf.gradle.*
 import de.undercouch.gradle.tasks.download.Download
-import de.undercouch.gradle.tasks.download.Verify
 import nebula.plugin.release.git.opinion.Strategies
 import java.time.Duration
 
