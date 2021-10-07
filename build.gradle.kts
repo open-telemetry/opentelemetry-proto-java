@@ -66,8 +66,6 @@ protobuf {
 }
 
 val protoVersion = version.toString().removeSuffix("-SNAPSHOT").removeSuffix("-alpha")
-// To generate checksum, download the file and run "shasum -a 256 ~/path/to/vfoo.zip"
-val protoChecksum = "5e4131064e9471eb09294374db0d55028fdb73898b08aa07a835d17d61e5f017"
 val protoArchive = file("$buildDir/archives/opentelemetry-proto-$protoVersion.zip")
 
 tasks {
@@ -77,15 +75,8 @@ tasks {
     dest(protoArchive)
   }
 
-  val verifyProtoArchive by registering(Verify::class) {
-    dependsOn(downloadProtoArchive)
-    src(protoArchive)
-    algorithm("SHA-256")
-    checksum(protoChecksum)
-  }
-
   val unzipProtoArchive by registering(Copy::class) {
-    dependsOn(verifyProtoArchive)
+    dependsOn(downloadProtoArchive)
     from(zipTree(protoArchive))
     into("$buildDir/protos")
   }
