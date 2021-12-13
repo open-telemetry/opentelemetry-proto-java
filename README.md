@@ -28,8 +28,8 @@ your desired version.
 
 ### Gradle
 
-```groovy
-implementation 'io.opentelemetry.proto:opentelemetry-proto:{{version}}'
+```kotlin
+implementation("io.opentelemetry.proto:opentelemetry-proto:{{version}}")
 ```
 
 ## Releasing
