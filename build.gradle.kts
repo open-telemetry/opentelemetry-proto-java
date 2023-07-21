@@ -87,6 +87,10 @@ tasks {
     into("$buildDir/protos")
   }
 
+  named("processResources") {
+    dependsOn(unzipProtoArchive)
+  }
+
   afterEvaluate {
     named("generateProto") {
       dependsOn(unzipProtoArchive)
