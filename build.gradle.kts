@@ -1,6 +1,7 @@
 import com.google.protobuf.gradle.*
 import de.undercouch.gradle.tasks.download.Download
-import nebula.plugin.release.git.opinion.Strategies
+import nebula.plugin.release.git.base.TagStrategy
+import nebula.plugin.release.git.semver.NearestVersionLocator
 import java.time.Duration
 
 plugins {
@@ -14,7 +15,6 @@ plugins {
 }
 
 release {
-  defaultVersionStrategy = Strategies.getSNAPSHOT()
 }
 
 tasks {
@@ -24,6 +24,13 @@ tasks {
 }
 
 description = "Java Bindings for the OpenTelemetry Protocol (OTLP)"
+
+// Project version is set from -Prelease.version or inferred from the latest tag
+if (properties.contains("release.version")) {
+  version = properties.get("release.version") as String
+} else {
+  version = NearestVersionLocator(TagStrategy()).locate(release.grgit).any.toString()
+}
 
 val grpcVersion = "1.56.1"
 val protobufVersion = "3.23.4"
@@ -64,10 +71,7 @@ protobuf {
   }
 }
 
-// Extract semnver portion of version string by stripping off portion after "-"
-// E.g. "0.20.0-SNAPSHOT" => "0.20.0", or "0.20.0-dev.3.uncommitted+update.dependencies.ecd2254" => "0.20.0"
-val protoVersion = version.toString().substring(0, version.toString().indexOf("-"))
-
+val protoVersion = version
 val protoArchive = file("$buildDir/archives/opentelemetry-proto-$protoVersion.zip")
 
 tasks {
