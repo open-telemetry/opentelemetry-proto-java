@@ -64,7 +64,10 @@ protobuf {
   }
 }
 
-val protoVersion = version.toString().removeSuffix("-SNAPSHOT").removeSuffix("-alpha")
+// Extract semnver portion of version string by stripping off portion after "-"
+// E.g. "0.20.0-SNAPSHOT" => "0.20.0", or "0.20.0-dev.3.uncommitted+update.dependencies.ecd2254" => "0.20.0"
+val protoVersion = version.toString().substring(0, version.toString().indexOf("-"))
+
 val protoArchive = file("$buildDir/archives/opentelemetry-proto-$protoVersion.zip")
 
 tasks {
