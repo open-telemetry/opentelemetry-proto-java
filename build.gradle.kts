@@ -15,6 +15,7 @@ plugins {
 }
 
 release {
+  defaultVersionStrategy = nebula.plugin.release.git.opinion.Strategies.getSNAPSHOT()
 }
 
 tasks {
@@ -24,13 +25,6 @@ tasks {
 }
 
 description = "Java Bindings for the OpenTelemetry Protocol (OTLP)"
-
-// Project version is set from -Prelease.version or inferred from the latest tag
-if (properties.contains("release.version")) {
-  version = properties.get("release.version") as String
-} else {
-  version = NearestVersionLocator(TagStrategy()).locate(release.grgit).any.toString()
-}
 
 val grpcVersion = "1.56.1"
 val protobufVersion = "3.23.4"
@@ -71,7 +65,14 @@ protobuf {
   }
 }
 
-val protoVersion = version
+// Proto version is set from -Prelease.version or inferred from the latest tag
+var protoVersion = if (properties.contains(
+    "release.version"
+  )) {
+  properties.get("release.version") as String
+} else {
+  NearestVersionLocator(TagStrategy()).locate(release.grgit).any.toString()
+}
 val protoArchive = file("$buildDir/archives/opentelemetry-proto-$protoVersion.zip")
 
 tasks {
