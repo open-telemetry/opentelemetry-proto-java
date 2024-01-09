@@ -54,6 +54,19 @@ with `-Prelease.version`:
 ./gradlew build -Prelease.version=1.0.0
 ```
 
+## Support
+
+The generated java bindings published from this repository are provided as-is.
+
+For generic documentation on how to use protobuf bindings,
+see [gRPC documentation](https://grpc.io/docs/languages/java/generated-code/)
+and [protobuf java documentation](https://protobuf.dev/reference/java/java-generated/).
+
+We have no intention of eventually publishing stable artifacts. If you need guarantees,
+please generate your own bindings,
+consulting [grpc codegen](https://grpc.io/docs/languages/java/generated-code/#codegen) and
+possibly [build.gradle.kts](build.gradle.kts)
+
 ## Releasing
 
 See [RELEASING.md](./RELEASING.md)
