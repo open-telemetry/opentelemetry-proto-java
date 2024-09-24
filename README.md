@@ -48,10 +48,10 @@ is [0.20.0](https://github.com/open-telemetry/opentelemetry-proto-java/tree/v0.2
 downloaded from
 the [v0.20.0 release](https://github.com/open-telemetry/opentelemetry-proto/releases/tag/v0.20.0).
 This can be overridden for the build or other gradle tasks (e.g. `publishToMavenLocal`)
-with `-Prelease.version`:
+with `-Prelease.version.prop`:
 
 ```shell
-./gradlew build -Prelease.version=1.0.0
+./gradlew build -Prelease.version.prop=1.0.0
 ```
 
 ## Support

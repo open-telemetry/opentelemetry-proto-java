@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: The version to tag the release with, e.g., 1.2.0, 1.2.1-alpha.1
+        description: The version to tag the release with, e.g., 1.2.0, 1.2.1-alpha, or 1.2.0.1 for a patch release of the 1.2.0 proto release
         required: true
 
 jobs:
@@ -26,14 +26,14 @@ jobs:
           remote-build-cache-proxy-enabled: false
           arguments: build --stacktrace
           properties: |
-            release.version=${{ github.event.inputs.version }}
+            release.version.prop=${{ github.event.inputs.version }}
             org.gradle.java.installations.paths=${{ steps.setup-java-17.outputs.path }}
       - uses: burrunan/gradle-cache-action@v1.10
         with:
           remote-build-cache-proxy-enabled: false
           arguments: final closeAndReleaseSonatypeStagingRepository --stacktrace
           properties: |
-            release.version=${{ github.event.inputs.version }}
+            release.version.prop=${{ github.event.inputs.version }}
             org.gradle.java.installations.paths=${{ steps.setup-java-17.outputs.path }}
         env:
           SONATYPE_USER: ${{ secrets.SONATYPE_USER }}
