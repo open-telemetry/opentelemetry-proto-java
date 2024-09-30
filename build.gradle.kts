@@ -14,7 +14,32 @@ plugins {
   id("otel.publish-conventions")
 }
 
+// Resolve protoVersion and releaseVersion
+// If user provides property release.version.prop match against releaseVersionRegex. protoVersion is the semconv matching group (i.e. for release.version.prop=1.3.2.1, protoVersion is 1.3.2). releaseVersion is the value of the release.version.prop.
+// Else, set protoVersion and releaseVersion to the most recent git tag.
+// The releaseVersion is used to set the nebular release plugin release version. Note, the release.version.prop is used because the nebula release plugin verifies release.version matches semconv.
+// The protoVersion is used to download sources from opentelemetry-proto..
+var protoVersion = "unknown"
+var releaseVersion = "unknown"
+if (properties.contains("release.version.prop")) {
+  val releaseVersionProperty = properties.get("release.version.prop") as String
+  val matchResult = "^(?<protoversion>([0-9]*)\\.([0-9]*)\\.([0-9]*)).*\$".toRegex().matchEntire(releaseVersionProperty)
+  if (matchResult == null) {
+    throw GradleException("Invalid value for release.version.prop")
+  }
+  protoVersion = matchResult.groups["protoversion"]?.value as String
+  releaseVersion = releaseVersionProperty
+} else {
+  protoVersion = NearestVersionLocator(TagStrategy()).locate(release.grgit).any.toString()
+  releaseVersion = protoVersion
+}
+logger.lifecycle("proto version: " + protoVersion)
+logger.lifecycle("release version: " + releaseVersion)
+
+val protoArchive = file("$buildDir/archives/opentelemetry-proto-$protoVersion.zip")
+
 release {
+  version = releaseVersion
   defaultVersionStrategy = nebula.plugin.release.git.opinion.Strategies.getSNAPSHOT()
 }
 
@@ -64,16 +89,6 @@ protobuf {
     }
   }
 }
-
-// Proto version is set from -Prelease.version or inferred from the latest tag
-var protoVersion = if (properties.contains(
-    "release.version"
-  )) {
-  properties.get("release.version") as String
-} else {
-  NearestVersionLocator(TagStrategy()).locate(release.grgit).any.toString()
-}
-val protoArchive = file("$buildDir/archives/opentelemetry-proto-$protoVersion.zip")
 
 tasks {
   val downloadProtoArchive by registering(Download::class) {
