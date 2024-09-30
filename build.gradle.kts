@@ -17,14 +17,13 @@ plugins {
 // Resolve protoVersion and releaseVersion
 // If user provides property release.version.prop match against releaseVersionRegex. protoVersion is the semconv matching group (i.e. for release.version.prop=1.3.2.1, protoVersion is 1.3.2). releaseVersion is the value of the release.version.prop.
 // Else, set protoVersion and releaseVersion to the most recent git tag.
-// The releaseVersion is used to set the nebular release plugin release version. Note, the release.version.prop is used because the nebular release plugin verifies release.version matches semconv.
+// The releaseVersion is used to set the nebular release plugin release version. Note, the release.version.prop is used because the nebula release plugin verifies release.version matches semconv.
 // The protoVersion is used to download sources from opentelemetry-proto..
-val releaseVersionRegex = "^(?<protoversion>([0-9]*)\\.([0-9]*)\\.([0-9]*)).*\$".toRegex()
 var protoVersion = "unknown"
 var releaseVersion = "unknown"
 if (properties.contains("release.version.prop")) {
   val releaseVersionProperty = properties.get("release.version.prop") as String
-  val matchResult = releaseVersionRegex.matchEntire(releaseVersionProperty)
+  val matchResult = "^(?<protoversion>([0-9]*)\\.([0-9]*)\\.([0-9]*)).*\$".toRegex().matchEntire(releaseVersionProperty)
   if (matchResult == null) {
     throw GradleException("Invalid value for release.version.prop")
   }
