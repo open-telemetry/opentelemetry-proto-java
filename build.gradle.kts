@@ -30,7 +30,7 @@ if (properties.contains("release.version.prop")) {
   protoVersion = matchResult.groups["protoversion"]?.value as String
   releaseVersion = releaseVersionProperty
 } else {
-  protoVersion = NearestVersionLocator(TagStrategy()).locate(release.grgit).any.toString()
+  protoVersion = NearestVersionLocator(release.gitReadCommands, TagStrategy()).locate().any.toString()
   releaseVersion = protoVersion
 }
 logger.lifecycle("proto version: " + protoVersion)
@@ -51,8 +51,8 @@ tasks {
 
 description = "Java Bindings for the OpenTelemetry Protocol (OTLP)"
 
-val grpcVersion = "1.68.0"
-val protobufVersion = "4.28.2"
+val grpcVersion = "1.68.1"
+val protobufVersion = "4.28.3"
 
 repositories {
   mavenCentral()
