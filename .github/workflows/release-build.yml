@@ -21,6 +21,8 @@ jobs:
         with:
           distribution: adopt
           java-version: 17
+      - name: Use CLA approved github bot
+        run: .github/scripts/use-cla-approved-github-bot.sh
       - uses: burrunan/gradle-cache-action@v1.10
         with:
           remote-build-cache-proxy-enabled: false
