@@ -10,22 +10,22 @@ jobs:
     name: Build
     runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0
       - id: setup-java-17
         name: Setup Java 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@3a4f6e1af504cf6a31855fa899c6aa5355ba6c12 # v4.7.0
         with:
           distribution: adopt
           java-version: 17
-      - uses: burrunan/gradle-cache-action@v1.10
+      - uses: burrunan/gradle-cache-action@cbdf4342ff988d143aa7a5aeceedffafb8c74bcf # v1.10
         with:
           remote-build-cache-proxy-enabled: false
           arguments: build --stacktrace
           properties: |
             org.gradle.java.installations.paths=${{ steps.setup-java-17.outputs.path }}
-      - uses: burrunan/gradle-cache-action@v1.10
+      - uses: burrunan/gradle-cache-action@cbdf4342ff988d143aa7a5aeceedffafb8c74bcf # v1.10
         with:
           remote-build-cache-proxy-enabled: false
           arguments: snapshot --stacktrace
