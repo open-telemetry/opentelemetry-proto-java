@@ -7,8 +7,13 @@ on:
         description: The version to tag the release with, e.g., 1.2.0, 1.2.1-alpha.1
         required: true
 
+permissions:
+  contents: read
+
 jobs:
   build:
+    permissions:
+      contents: write # for creating the release
     name: Build
     runs-on: ubuntu-latest
     steps:
