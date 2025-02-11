@@ -23,20 +23,6 @@ Additional Notes:
 - Ensure your JAVA_HOME is correctly set.
 - Consider using a Gradle wrapper (`./gradlew`) instead of a system-wide Gradle installation.
 
-
-## Workflow
-
-We follow a structured workflow to ensure smooth collaboration:
-
-### Branch Naming Convention
-- **Feature branches**: `feature/<short-description>`
-- **Bugfix branches**: `fix/<short-description>`
-- **Documentation updates**: `docs/<short-description>`
-
-### Commit Message Format
-- Use descriptive commit messages (e.g., `fix(telemetry): resolve serialization issue`)
-- Follow [Conventional Commits](https://www.conventionalcommits.org/) where possible.
-
 ### Pull Request Guidelines
 - Fork the repository and create a new branch.
 - Follow the coding guidelines before submitting your PR.
