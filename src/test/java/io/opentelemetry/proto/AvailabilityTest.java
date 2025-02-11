@@ -16,7 +16,6 @@ public class AvailabilityTest {
 
   @Test
   void available() {
-
     isValidClass("io.opentelemetry.proto.trace.v1.Span");
     isValidClass("io.opentelemetry.proto.metrics.v1.Metric");
     isValidClass("io.opentelemetry.proto.logs.v1.LogRecord");
