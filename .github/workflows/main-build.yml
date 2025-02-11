@@ -8,31 +8,33 @@ on:
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0
+
       - id: setup-java-17
         name: Setup Java 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@3a4f6e1af504cf6a31855fa899c6aa5355ba6c12 # v4.7.0
         with:
-          distribution: adopt
+          distribution: temurin
           java-version: 17
-      - uses: burrunan/gradle-cache-action@v1.10
-        with:
-          remote-build-cache-proxy-enabled: false
-          arguments: build --stacktrace
-          properties: |
-            org.gradle.java.installations.paths=${{ steps.setup-java-17.outputs.path }}
-      - uses: burrunan/gradle-cache-action@v1.10
-        with:
-          remote-build-cache-proxy-enabled: false
-          arguments: snapshot --stacktrace
-          properties: |
-            org.gradle.java.installations.paths=${{ steps.setup-java-17.outputs.path }}
+
+      - name: Set up gradle
+        uses: gradle/actions/setup-gradle@94baf225fe0a508e581a564467443d0e2379123b # v4.3.0
+
+      - name: Build
+        run: >
+          ./gradlew build --stacktrace
+          "-Porg.gradle.java.installations.paths=${{ steps.setup-java-17.outputs.path }}"
+
+      - name: Publish snapshot
         env:
           SONATYPE_USER: ${{ secrets.SONATYPE_USER }}
           SONATYPE_KEY: ${{ secrets.SONATYPE_KEY }}
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
+        run: >
+          ./gradlew snapshot --stacktrace
+          "-Porg.gradle.java.installations.paths=${{ steps.setup-java-17.outputs.path }}"
