@@ -15,19 +15,13 @@ If you have any questions, feel free to ask in the community channels. We’re h
 
 Before getting started, ensure you have the following installed:
 
-- **JDK 11 or higher** – [Install OpenJDK](https://adoptopenjdk.net/)
-- **Gradle** – [Install Gradle](https://gradle.org/install/)
-- **Docker** (optional, for testing)
+* **JDK 11 or higher** – [Install OpenJDK](https://adoptopenjdk.net/)
+* **Gradle** – [Install Gradle](https://gradle.org/install/)
+* **Docker** (optional, for testing)
 
 Additional Notes:
-- Ensure your JAVA_HOME is correctly set.
-- Consider using a Gradle wrapper (`./gradlew`) instead of a system-wide Gradle installation.
-
-### Pull Request Guidelines
-- Fork the repository and create a new branch.
-- Follow the coding guidelines before submitting your PR.
-- Ensure tests pass locally before pushing.
-- Link relevant issues in the PR description.
+* Ensure your JAVA_HOME is correctly set.
+* Consider using a Gradle wrapper (`./gradlew`) instead of a system-wide Gradle installation.
 
 ## Local Run/Build
 
@@ -57,8 +51,6 @@ To override this and specify a different version:
 ./gradlew build -Prelease.version.prop=1.0.0
 ```
 
----
-
 ## Testing
 
 To run tests:
@@ -79,8 +71,6 @@ To generate a coverage report:
 ./gradlew jacocoTestReport
 ```
 
----
-
 ## Contributing Rules
 
 - Follow [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html).
@@ -90,7 +80,6 @@ To generate a coverage report:
 
 Check for issues labeled [`good first issue`](https://github.com/open-telemetry/opentelemetry-proto-java/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) to start contributing.
 
----
 
 ## Further Help
 
@@ -100,13 +89,13 @@ Need help? Join our community:
 - **GitHub Discussions**: [OpenTelemetry Java Discussions](https://github.com/open-telemetry/opentelemetry-java/discussions)
 - **Issues**: If you encounter a bug, [open an issue](https://github.com/open-telemetry/opentelemetry-proto-java/issues)
 
----
+
 
 ## Troubleshooting Guide
 
 ### Common Issues & Fixes
 
-#### 1. Build fails due to missing dependencies
+#### Build fails due to missing dependencies
 **Error:** `Could not resolve dependencies`
 
 **Fix:** Run:
@@ -114,15 +103,7 @@ Need help? Join our community:
 ./gradlew build --refresh-dependencies
 ```
 
-#### 2. Gradle build issues
-**Error:** `Could not find org.openjdk.tools:jdk.tools`
-
-**Fix:** Ensure JAVA_HOME is correctly set:
-```bash
-export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which javac))))
-```
-
-#### 3. Tests failing
+#### Tests failing
 **Error:** `Test XYZ failed`
 
 **Fix:**
@@ -134,7 +115,6 @@ Check logs and rerun the failing test with:
 ./gradlew test --tests com.example.FailingTest
 ```
 
----
 
 ## Additional Information
 
@@ -172,4 +152,4 @@ with `-Prelease.version.prop`:
 ./gradlew build -Prelease.version.prop=1.0.0
 ```
 
-Thank you for contributing! 🚀
+Thank you for contributing!
