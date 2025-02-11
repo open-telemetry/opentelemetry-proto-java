@@ -44,6 +44,9 @@ dependencies {
   compileOnly("io.grpc:grpc-api:$grpcVersion")
   compileOnly("io.grpc:grpc-protobuf:$grpcVersion")
   compileOnly("io.grpc:grpc-stub:$grpcVersion")
+
+  testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
+  testImplementation("org.assertj:assertj-core:3.27.3")
 }
 
 protobuf {
@@ -76,6 +79,10 @@ var protoVersion = if (properties.contains(
 val protoArchive = file("$buildDir/archives/opentelemetry-proto-$protoVersion.zip")
 
 tasks {
+  test {
+    useJUnitPlatform()
+  }
+
   val downloadProtoArchive by registering(Download::class) {
     onlyIf { !protoArchive.exists() }
     src("https://github.com/open-telemetry/opentelemetry-proto/archive/v$protoVersion.zip")
