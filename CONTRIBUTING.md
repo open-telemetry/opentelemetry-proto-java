@@ -65,20 +65,15 @@ To generate a coverage report:
 
 ## Contributing Rules
 
-- Follow [Google Java Style Guide](https://google.github.io/styleguide/javaguide.html).
-- Ensure new features have appropriate test coverage.
-- Run `./gradlew check` before submitting a PR.
-- Include clear and concise documentation updates if needed.
+* Ensure new features have appropriate test coverage.
+* Run `./gradlew check` before submitting a PR.
+* Include clear and concise documentation updates if needed.
 
 Check for issues labeled [`good first issue`](https://github.com/open-telemetry/opentelemetry-proto-java/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22) to start contributing.
 
 
 ## Further Help
 
-Need help? Join our community:
-
-- **Slack**: [OpenTelemetry Slack](https://opentelemetry.io/community/)
-- **GitHub Discussions**: [OpenTelemetry Java Discussions](https://github.com/open-telemetry/opentelemetry-java/discussions)
 - **Issues**: If you encounter a bug, [open an issue](https://github.com/open-telemetry/opentelemetry-proto-java/issues)
 
 ## Troubleshooting Guide
@@ -104,7 +99,6 @@ Check logs and rerun the failing test with:
 ```bash
 ./gradlew test --tests com.example.FailingTest
 ```
-
 
 ## Additional Information
 
