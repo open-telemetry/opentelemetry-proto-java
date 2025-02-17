@@ -25,14 +25,6 @@ Additional Notes:
 
 ## Local Run/Build
 
-To set up your local development environment:
-
-```bash
-# Clone the repository
-git clone https://github.com/open-telemetry/opentelemetry-proto-java.git
-cd opentelemetry-proto-java
-```
-
 ### Building the Project
 
 To build the project and generate Java bindings from the OpenTelemetry proto definitions:
@@ -88,8 +80,6 @@ Need help? Join our community:
 - **Slack**: [OpenTelemetry Slack](https://opentelemetry.io/community/)
 - **GitHub Discussions**: [OpenTelemetry Java Discussions](https://github.com/open-telemetry/opentelemetry-java/discussions)
 - **Issues**: If you encounter a bug, [open an issue](https://github.com/open-telemetry/opentelemetry-proto-java/issues)
-
-
 
 ## Troubleshooting Guide
 
