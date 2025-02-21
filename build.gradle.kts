@@ -45,7 +45,7 @@ dependencies {
   compileOnly("io.grpc:grpc-protobuf:$grpcVersion")
   compileOnly("io.grpc:grpc-stub:$grpcVersion")
 
-  testImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
+  testImplementation("org.junit.jupiter:junit-jupiter:5.12.0")
   testImplementation("org.assertj:assertj-core:3.27.3")
 }
 
