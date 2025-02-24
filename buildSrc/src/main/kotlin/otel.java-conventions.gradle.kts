@@ -86,3 +86,20 @@ configurations.configureEach {
     preferProjectModules()
   }
 }
+
+testing {
+  suites.withType(JvmTestSuite::class).configureEach {
+    dependencies {
+      implementation(project(project.path))
+
+      implementation(enforcedPlatform("org.junit:junit-bom:5.12.0"))
+      implementation(enforcedPlatform("org.assertj:assertj-bom:3.27.3"))
+
+      implementation("org.junit.jupiter:junit-jupiter-api")
+      implementation("org.assertj:assertj-core")
+
+      runtimeOnly("org.junit.jupiter:junit-jupiter-engine")
+      runtimeOnly("org.junit.platform:junit-platform-launcher")
+    }
+  }
+}
