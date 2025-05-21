@@ -38,21 +38,21 @@ jobs:
           -Prelease.version=${{ github.event.inputs.version }}
           "-Porg.gradle.java.installations.paths=${{ steps.setup-java-17.outputs.path }}"
 
+      - name: Set user.name and user.email for the nebula plugin
+        run: |
+          git config user.name otelbot
+          git config user.email 197425009+otelbot@users.noreply.github.com
+
       - name: Publish release
         env:
           SONATYPE_USER: ${{ secrets.SONATYPE_USER }}
           SONATYPE_KEY: ${{ secrets.SONATYPE_KEY }}
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
-        run: |
-          # user.name and user.email are required by the nebula plugin
-          git config user.name otelbot
-          git config user.email 197425009+otelbot@users.noreply.github.com
-  
-          ./gradlew final closeAndReleaseSonatypeStagingRepository \
-                    --stacktrace \ 
-                    -Prelease.version=${{ github.event.inputs.version }} \
-                    "-Porg.gradle.java.installations.paths=${{ steps.setup-java-17.outputs.path }}"
+        run: >
+          ./gradlew final closeAndReleaseSonatypeStagingRepository --stacktrace
+          -Prelease.version=${{ github.event.inputs.version }}
+          "-Porg.gradle.java.installations.paths=${{ steps.setup-java-17.outputs.path }}"
 
       - name: Create Release
         env:
