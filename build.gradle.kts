@@ -27,7 +27,7 @@ tasks {
 description = "Java Bindings for the OpenTelemetry Protocol (OTLP)"
 
 val grpcVersion = "1.75.0"
-val protobufVersion = "4.32.0"
+val protobufVersion = "4.32.1"
 
 repositories {
   mavenCentral()
