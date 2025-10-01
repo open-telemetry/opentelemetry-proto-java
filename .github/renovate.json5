@@ -2,7 +2,7 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:best-practices",
-    "helpers:pinGitHubActionDigestsToSemver"
+    "helpers:pinGitHubActionDigestsToSemver",
   ],
   "packageRules": [
     {
@@ -10,6 +10,16 @@
       "matchManagers": ["github-actions"],
       "extends": ["schedule:weekly"],
       "groupName": "github actions"
-    }
+    },
+    {
+      // junit 6+ requires Java 17+
+      matchPackageNames: [
+        'org.junit:**',
+      ],
+      matchUpdateTypes: [
+        'major',
+      ],
+      enabled: false,
+    },
   ]
 }
