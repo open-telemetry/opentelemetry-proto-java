@@ -59,14 +59,6 @@ publishing {
   }
 }
 
-afterEvaluate {
-  val publishToSonatype by tasks.getting
-  val release by rootProject.tasks.existing
-  release.configure {
-    finalizedBy(publishToSonatype)
-  }
-}
-
 if (System.getenv("CI") != null) {
   signing {
     useInMemoryPgpKeys(System.getenv("GPG_PRIVATE_KEY"), System.getenv("GPG_PASSWORD"))
