@@ -1,4 +1,4 @@
-name: "PR Build"
+name: Build Pull Request
 
 on:
   pull_request:
@@ -8,15 +8,16 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-        with:
-          # the nebula plugin used in this repo needs the tags
-          fetch-depth: 0
 
       - id: setup-java-17
         name: Setup Java 17
@@ -29,6 +30,4 @@ jobs:
         uses: gradle/actions/setup-gradle@4d9f0ba0025fe599b4ebab900eb7f3a1d93ef4c2 # v5.0.0
 
       - name: Build
-        run: >
-          ./gradlew build --stacktrace
-          "-Porg.gradle.java.installations.paths=${{ steps.setup-java-17.outputs.path }}"
+        run: ./gradlew build
