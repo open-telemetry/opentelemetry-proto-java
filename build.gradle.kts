@@ -1,28 +1,31 @@
 import com.google.protobuf.gradle.*
 import de.undercouch.gradle.tasks.download.Download
-import nebula.plugin.release.git.base.TagStrategy
-import nebula.plugin.release.git.semver.NearestVersionLocator
 import java.time.Duration
 
 plugins {
   id("com.google.protobuf")
   id("de.undercouch.download")
   id("io.github.gradle-nexus.publish-plugin")
-  id("nebula.release")
 
   id("otel.java-conventions")
   id("otel.publish-conventions")
 }
 
-release {
-  defaultVersionStrategy = nebula.plugin.release.git.opinion.Strategies.getSNAPSHOT()
-}
+// start - updated by ./.github/workflows/prepare-release-branch.yml
+val snapshot = true
+// end
 
-tasks {
-  named("release") {
-    mustRunAfter("snapshotSetup", "finalSetup")
-  }
+// The release version of opentelemetry-proto used to generate classes
+var protoVersion = "1.8.0"
+
+// Compute the artifact version, include the "-SNAPSHOT" suffix if not releasing
+// Release example: 1.5.0
+// Snapshot example: 1.5.0-SNAPSHOT
+var ver = protoVersion
+if (snapshot) {
+  ver += "-SNAPSHOT"
 }
+version = ver
 
 description = "Java Bindings for the OpenTelemetry Protocol (OTLP)"
 
@@ -65,14 +68,6 @@ protobuf {
   }
 }
 
-// Proto version is set from -Prelease.version or inferred from the latest tag
-var protoVersion = if (properties.contains(
-    "release.version"
-  )) {
-  properties.get("release.version") as String
-} else {
-  NearestVersionLocator(release.gitReadCommands, TagStrategy()).locate().any.toString()
-}
 val protoArchive = file("$buildDir/archives/opentelemetry-proto-$protoVersion.zip")
 
 tasks {

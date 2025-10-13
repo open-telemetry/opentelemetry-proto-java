@@ -1,0 +1,75 @@
+name: Prepare release branch
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  prereqs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+
+      - name: Verify prerequisites
+        run: |
+          if [[ $GITHUB_REF_NAME != main ]]; then
+            echo this workflow should only be run against main
+            exit 1
+          fi
+
+  create-pull-request-against-release-branch:
+    permissions:
+      contents: write  # for Git to git push
+    runs-on: ubuntu-latest
+    needs:
+      - prereqs
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+
+      - name: Create release branch
+        run: |
+          version=$(.github/scripts/get-version.sh)
+          if [[ $version =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+            release_branch_name="release/v${version}"
+            release_branch_exists=$(git ls-remote --heads origin refs/heads/$release_branch_name)
+            if [[ $release_branch_exists != "" ]] ; then
+              echo "release branch $release_branch_name already exists"
+              exit 1
+            fi
+          else
+            echo "unexpected version: $version"
+            exit 1
+          fi
+
+          git push origin HEAD:$release_branch_name
+
+          echo "VERSION=$version" >> $GITHUB_ENV
+          echo "RELEASE_BRANCH_NAME=$release_branch_name" >> $GITHUB_ENV
+
+      - name: Update version
+        run: sed -Ei "s/val snapshot = true/val snapshot = false/" build.gradle.kts
+
+      - name: Use CLA approved bot
+        run: .github/scripts/use-cla-approved-bot.sh
+
+      - uses: actions/create-github-app-token@67018539274d69449ef7c02e8e71183d1719ab42 # v2.1.4
+        id: otelbot-token
+        with:
+          app-id: ${{ vars.OTELBOT_APP_ID }}
+          private-key: ${{ secrets.OTELBOT_PRIVATE_KEY }}
+
+      - name: Create pull request against the release branch
+        env:
+          # not using secrets.GITHUB_TOKEN since pull requests from that token do not run workflows
+          GH_TOKEN: ${{ steps.otelbot-token.outputs.token }}
+        run: |
+          message="Prepare release $VERSION"
+          branch="otelbot/prepare-release-${VERSION}"
+
+          git checkout -b $branch
+          git commit -a -m "$message"
+          git push --set-upstream origin $branch
+          gh pr create --title "[$RELEASE_BRANCH_NAME] $message" \
+                       --body "$message." \
+                       --base $RELEASE_BRANCH_NAME
