@@ -68,7 +68,7 @@ protobuf {
   }
 }
 
-val protoArchive = file("$buildDir/archives/opentelemetry-proto-$protoVersion.zip")
+val protoArchive = layout.buildDirectory.file("archives/opentelemetry-proto-$protoVersion.zip")
 
 tasks {
   test {
@@ -76,15 +76,15 @@ tasks {
   }
 
   val downloadProtoArchive by registering(Download::class) {
-    onlyIf { !protoArchive.exists() }
     src("https://github.com/open-telemetry/opentelemetry-proto/archive/v$protoVersion.zip")
     dest(protoArchive)
+    overwrite(false)
   }
 
   val unzipProtoArchive by registering(Copy::class) {
     dependsOn(downloadProtoArchive)
     from(zipTree(protoArchive))
-    into("$buildDir/protos")
+    into(layout.buildDirectory.dir("protos"))
   }
 
   named("processResources") {
@@ -101,7 +101,7 @@ tasks {
 sourceSets {
   main {
     proto {
-      srcDir("$buildDir/protos/opentelemetry-proto-$protoVersion")
+      srcDir(layout.buildDirectory.dir("protos/opentelemetry-proto-$protoVersion"))
     }
   }
 }
