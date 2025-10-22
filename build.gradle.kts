@@ -76,9 +76,9 @@ tasks {
   }
 
   val downloadProtoArchive by registering(Download::class) {
-    onlyIf { !protoArchive.get().asFile.exists() }
     src("https://github.com/open-telemetry/opentelemetry-proto/archive/v$protoVersion.zip")
     dest(protoArchive)
+    overwrite(false)
   }
 
   val unzipProtoArchive by registering(Copy::class) {
