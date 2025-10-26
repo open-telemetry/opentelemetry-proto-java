@@ -21,33 +21,33 @@ val develocityAccessKey = System.getenv("DEVELOCITY_ACCESS_KEY") ?: ""
 val useScansGradleCom = isCI && develocityAccessKey.isEmpty()
 
 develocity {
-    if (useScansGradleCom) {
-        buildScan {
-            termsOfUseUrl = "https://gradle.com/help/legal-terms-of-use"
-            termsOfUseAgree = "yes"
-        }
-    } else {
-        server = develocityServer
-        buildScan {
-            publishing.onlyIf { it.isAuthenticated }
-        }
-    }
-
+  if (useScansGradleCom) {
     buildScan {
-        uploadInBackground = !isCI
-
-        capture {
-            fileFingerprints = true
-        }
+      termsOfUseUrl = "https://gradle.com/help/legal-terms-of-use"
+      termsOfUseAgree = "yes"
     }
+  } else {
+    server = develocityServer
+    buildScan {
+      publishing.onlyIf { it.isAuthenticated }
+    }
+  }
+
+  buildScan {
+    uploadInBackground = !isCI
+
+    capture {
+      fileFingerprints = true
+    }
+  }
 }
 
 if (!useScansGradleCom) {
-    buildCache {
-        remote(develocity.buildCache) {
-            isPush = isCI && develocityAccessKey.isNotEmpty()
-        }
+  buildCache {
+    remote(develocity.buildCache) {
+      isPush = isCI && develocityAccessKey.isNotEmpty()
     }
+  }
 }
 
 rootProject.name = "opentelemetry-proto"
