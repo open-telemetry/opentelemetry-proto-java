@@ -16,7 +16,7 @@ val snapshot = true
 // end
 
 // The release version of opentelemetry-proto used to generate classes
-var protoVersion = "1.8.0"
+var protoVersion = "1.9.0"
 
 // Compute the artifact version, include the "-SNAPSHOT" suffix if not releasing
 // Release example: 1.5.0
