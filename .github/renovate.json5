@@ -22,5 +22,18 @@
       ],
       enabled: false,
     },
-  ]
+  ],
+  customManagers: [
+    {
+      customType: 'regex',
+      datasourceTemplate: 'github-releases',
+      managerFilePatterns: [
+        'build.gradle.kts',
+      ],
+      matchStrings: [
+        '"(?<currentValue>.+?)" // renovate\\(github-releases\\): (?<depName>[^\\s]+)',
+      ],
+      versioningTemplate: 'semver',
+    },
+  ],
 }
