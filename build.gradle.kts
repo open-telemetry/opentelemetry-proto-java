@@ -12,7 +12,7 @@ plugins {
 }
 
 // start - updated by ./.github/workflows/prepare-release-branch.yml
-val snapshot = true
+val snapshot = false
 // end
 
 // The release version of opentelemetry-proto used to generate classes
