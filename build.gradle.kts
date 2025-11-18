@@ -29,7 +29,7 @@ version = ver
 
 description = "Java Bindings for the OpenTelemetry Protocol (OTLP)"
 
-val grpcVersion = "1.76.0"
+val grpcVersion = "1.77.0"
 val protobufVersion = "4.33.1"
 
 repositories {
