@@ -56,7 +56,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh release create --target $GITHUB_REF_NAME \
-                            --title "Version $VERSION" \
+                            --title "Release v$VERSION-alpha" \
                             --notes-file /tmp/release-notes.txt \
                             v$VERSION
 
