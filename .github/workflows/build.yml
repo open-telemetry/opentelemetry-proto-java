@@ -29,14 +29,3 @@ jobs:
         run: ./gradlew build
         env:
           DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_ACCESS_KEY }}
-
-      - name: Publish snapshots
-        # skipping release branches because the versions in those branches are not snapshots
-        if: github.ref_name == 'main' && github.repository == 'open-telemetry/opentelemetry-proto-java'
-        run: ./gradlew publishToSonatype
-        env:
-          SONATYPE_USER: ${{ secrets.SONATYPE_USER }}
-          SONATYPE_KEY: ${{ secrets.SONATYPE_KEY }}
-          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
-          GPG_PASSWORD: ${{ secrets.GPG_PASSWORD }}
-          DEVELOCITY_ACCESS_KEY: ${{ secrets.DEVELOCITY_ACCESS_KEY }}
