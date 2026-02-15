@@ -89,7 +89,7 @@ configurations.configureEach {
 
 testing {
   suites.withType(JvmTestSuite::class).configureEach {
-    useJUnitJupiter("5.14.2")
+    useJUnitJupiter("5.14.3")
 
     dependencies {
       implementation(project(project.path))
