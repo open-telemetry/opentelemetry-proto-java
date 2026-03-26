@@ -12,13 +12,13 @@
       // group all patch updates into a single weekly PR
       "groupName": "all patch versions",
       "matchUpdateTypes": ["patch"],
-      "schedule": ["before 8am on Tuesday"]
+      "schedule": ["* 0-7 * * 2"] // weekly, before 8am on Tuesday
     },
     {
       // group all GitHub Actions updates into a single weekly PR
       // (must be after patch rule so that it wins for GH Action patches)
       "matchManagers": ["github-actions"],
-      "extends": ["schedule:weekly"],
+      "schedule": ["* 0-7 * * 2"], // weekly, before 8am on Tuesday
       "groupName": "github actions"
     },
 
