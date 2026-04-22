@@ -87,7 +87,7 @@ tasks {
     into(layout.buildDirectory.dir("protos"))
   }
 
-  named("processResources") {
+  named("processProtoResources") {
     dependsOn(unzipProtoArchive)
   }
 
