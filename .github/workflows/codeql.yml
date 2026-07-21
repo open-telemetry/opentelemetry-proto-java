@@ -33,6 +33,7 @@ jobs:
         with:
           # the nebula plugin used in this repo needs the tags
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Set up Java 17
         if: matrix.language == 'java'
