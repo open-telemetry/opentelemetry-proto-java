@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          persist-credentials: false
 
       - name: Verify prerequisites
         run: |
@@ -30,6 +32,8 @@ jobs:
           # history is needed to allow fast-forward push below in case
           # re-running this workflow after merging additional PRs to main
           fetch-depth: 0
+          # zizmor: ignore[artipacked] Credentials are required by the branch pushes below.
+          persist-credentials: true
 
       - name: Create release branch
         run: |
