@@ -24,7 +24,7 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      # This workflow builds release branches but does not publish runtime artifacts.
+      # zizmor cache-poisoning suppression rationale: this workflow builds release branches but does not publish runtime artifacts.
       - name: Set up gradle # zizmor: ignore[cache-poisoning]
         uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6.2.0
 
