@@ -30,7 +30,7 @@ version = ver
 description = "Java Bindings for the OpenTelemetry Protocol (OTLP)"
 
 val grpcVersion = "1.83.1"
-val protobufVersion = "4.35.1"
+val protobufVersion = "4.36.1"
 
 repositories {
   mavenCentral()
